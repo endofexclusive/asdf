@@ -1,0 +1,3 @@
+TOP ?= $(abspath ../..)
+include ../Makefile
+

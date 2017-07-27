@@ -1,0 +1,7 @@
+Makefile
+*.bak
+*.exe
+*.info
+*.lnk
+*.o
+
