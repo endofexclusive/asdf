@@ -1,0 +1,30 @@
+--- ext/lua-5.3.4/src/lua.c	2017-01-12 18:14:26.000000000 +0100
++++ ami-lua.c	2017-07-22 21:20:26.236980801 +0200
+@@ -27,7 +27,7 @@
+ #endif
+ 
+ #if !defined(LUA_PROGNAME)
+-#define LUA_PROGNAME		"lua"
++#define LUA_PROGNAME		"ami-lua"
+ #endif
+ 
+ #if !defined(LUA_MAXINPUT)
+@@ -600,6 +600,18 @@
+     l_message(argv[0], "cannot create state: not enough memory");
+     return EXIT_FAILURE;
+   }
++  {
++    /* Controls execution of Lua tests: see all.lua. */
++    const char *testenv;
++
++    testenv = "_port=true";
++    dostring(L, testenv, "testenv");
++    testenv = "_soft=true";
++    dostring(L, testenv, "testenv");
++
++    /* files.lua assumes this*/
++    setenv("PATH", "RAM:", 0);
++  }
+   lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
+   lua_pushinteger(L, argc);  /* 1st argument */
+   lua_pushlightuserdata(L, argv); /* 2nd argument */

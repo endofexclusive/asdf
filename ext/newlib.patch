@@ -1,0 +1,24 @@
+diff -Naur newlib-2.5.0.20170720/newlib/libc/include/stdio.h newlib-git/newlib/libc/include/stdio.h
+--- newlib-2.5.0.20170720/newlib/libc/include/stdio.h	2017-07-20 16:18:54.000000000 +0200
++++ newlib-git/newlib/libc/include/stdio.h	2017-07-26 23:01:46.590197957 +0200
+@@ -142,7 +142,7 @@
+ #endif
+ 
+ #if __BSD_VISIBLE || __XSI_VISIBLE
+-#define P_tmpdir        "/tmp"
++#define P_tmpdir        "T:"
+ #endif
+ 
+ #ifndef SEEK_SET
+diff -Naur newlib-2.5.0.20170720/newlib/libc/stdio/tmpnam.c newlib-git/newlib/libc/stdio/tmpnam.c
+--- newlib-2.5.0.20170720/newlib/libc/stdio/tmpnam.c	2017-07-20 16:18:54.000000000 +0200
++++ newlib-git/newlib/libc/stdio/tmpnam.c	2017-07-26 23:01:46.590197957 +0200
+@@ -118,7 +118,7 @@
+   while (1)
+     {
+       int t;
+-      _sprintf_r (ptr, result, "%s/%s%x.%x", part1, part2, part3, *part4);
++      _sprintf_r (ptr, result, "%s%s%x.%x", part1, part2, part3, *part4);
+       (*part4)++;
+       t = _open_r (ptr, result, O_RDONLY, 0);
+       if (t == -1)

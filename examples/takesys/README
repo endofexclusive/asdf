@@ -1,0 +1,28 @@
+# ABOUT
+This example takes over the system and restores it again. It is linked with the
+nano startup for small applications.
+
+
+# BUILD
+    $ make
+
+Generated output files:
+    * takesys.hunk      - loadable hunk image
+    * main.s            - Annotated assmebly of main.c
+    * demo.s            - Annotated assmebly of demo.c
+
+
+# MISC
+GCC register variable can be used for referencing Amiga custom registers. See
+how the preprocessor symbol CUSTOM_AS_GLOBAL_REG is used.
+
+Custom inline functions are used calling AmigaOS library routines (xproto.h).
+
+GCC option -mshort used to enable 16-bit integers (instead of 32-bit which is
+default).
+
+Annotated disassembly is generated in the .s files.
+
+The code for taking over the system is probably not complete and correct.
+Please improve :-).
+

@@ -1,0 +1,9 @@
+*.gz
+*.lha
+vlink
+vasm
+binutils-*
+gcc-*
+newlib-*
+ndk-*
+

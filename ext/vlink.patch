@@ -1,0 +1,82 @@
+--- vlink/linker.c	2017-05-15 19:33:09.000000000 +0200
++++ vlink-git/linker.c	2017-07-28 08:22:40.821860769 +0200
+@@ -771,6 +771,9 @@
+       /* flag all referenced sections */
+       for (r=(struct Reloc *)sec->xrefs.first;
+            r->n.next!=NULL; r=(struct Reloc *)r->n.next) {
++        if (r->relocsect.symbol == NULL) {
++          continue;
++        }
+         if (r->relocsect.symbol->relsect != NULL)
+           r->relocsect.symbol->relsect->flags |= SF_REFERENCED;
+       }
+@@ -805,6 +808,9 @@
+ 
+   for (r=(struct Reloc *)sec->xrefs.first;
+        r->n.next!=NULL; r=(struct Reloc *)r->n.next) {
++    if (r->relocsect.symbol == NULL) {
++      continue;
++    }
+     ref_section(r->relocsect.symbol->relsect);
+   }
+ 
+@@ -1019,9 +1025,8 @@
+             if (!gv->dest_object && !gv->dest_sharedobj) {
+               if (xref->flags & RELF_WEAK) {
+                 /* weak references default to 0 */
+-                xdef = addlnksymbol(gv,xref->xrefname,0,SYM_RELOC,0,
+-                                    SYMI_NOTYPE,SYMB_LOCAL,0);
+-                xdef->relsect = dummy_section(gv,obj);
++                xdef = addlnksymbol(gv,xref->xrefname,0,SYM_ABS,0,
++                                    SYMI_NOTYPE,SYMB_GLOBAL,0);
+               }
+               else {
+                 print_function_name(sec,xref->offset);
+--- vlink/vlink.h	2017-05-15 19:33:13.000000000 +0200
++++ vlink-git/vlink.h	2017-07-28 08:22:40.829860747 +0200
+@@ -869,7 +869,6 @@
+ extern struct Section *common_section(struct GlobalVars *,struct ObjectUnit *);
+ extern struct Section *scommon_section(struct GlobalVars *,struct ObjectUnit *);
+ extern struct Section *abs_section(struct ObjectUnit *);
+-extern struct Section *dummy_section(struct GlobalVars *,struct ObjectUnit *);
+ extern struct LinkedSection *create_lnksect(struct GlobalVars *,const char *,
+                                             uint8_t,uint8_t,uint8_t,uint8_t,
+                                             uint32_t);
+--- vlink/targets.c	2017-05-15 19:33:12.000000000 +0200
++++ vlink-git/targets.c	2017-07-28 08:22:40.825860758 +0200
+@@ -1644,35 +1644,6 @@
+ }
+ 
+ 
+-struct Section *dummy_section(struct GlobalVars *gv,struct ObjectUnit *ou)
+-/* Make a dummy section already attached to a dummy-LinkedSection, which
+-   won't appear in any section lists.
+-   Can be used for relocatable linker symbols, which need a specific value. */
+-{
+-  struct Section *s;
+-
+-  if (!(s = gv->dummysec)) {
+-    struct LinkedSection *ls = alloczero(sizeof(struct LinkedSection));
+-
+-    s = add_section(ou,"*linker*",NULL,0,ST_TMP,
+-                    SF_ALLOC|SF_UNINITIALIZED,SP_READ|SP_WRITE,0,TRUE);
+-    s->lnksec = ls;
+-    ls->name = s->name;
+-    ls->hash = s->hash;
+-    ls->type = s->type;
+-    ls->flags = s->flags;
+-    ls->protection = s->protection;
+-    ls->index = INVALID;
+-    initlist(&ls->sections);
+-    initlist(&ls->relocs);
+-    initlist(&ls->xrefs);
+-    initlist(&ls->symbols);
+-    gv->dummysec = s;
+-  }
+-  return s;
+-}
+-
+-
+ struct LinkedSection *create_lnksect(struct GlobalVars *gv,const char *name,
+                                      uint8_t type,uint8_t flags,
+                                      uint8_t protection,uint8_t alignment,

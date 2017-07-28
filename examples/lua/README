@@ -1,0 +1,57 @@
+# Lua and Lua test suite
+
+## Preparation
+Get source code for Lua and Lua test suite.
+
+    $ make fetch
+
+
+## Build
+Build Lua interactive interpreter, ami-lua.hunk.
+
+    $ make
+
+
+Compiler/linker options can be provided in the CCOPT variable:
+    $ make clean
+    $ make CCOPT="-mcpu=68060 -mshort -O2"
+
+Default is "-O3 -mcpu=68020".
+
+
+Clean ami-lua.hunk, luac.hunk and Lua library:
+
+    $ make clean
+
+
+## Run
+Copy ami-lua.hunk and ext/lua-5.3.4-tests/*.lua to your Amiga. The interactive
+shell can be started with:
+
+    1> ami-lua.hunk
+
+To exit ami-lua.hunk, press Ctrl + \.
+
+The test suite can be started as:
+
+    1> ami-lua.hunk all.hunk
+
+
+ami-lua.hunk can also be used with vamos. For example:
+
+    $ vamos -C 68020 -m 8192 -s 4096 -V lua:$PWD/ext/lua-5.3.4-tests/ ami-lua.hunk lua:tpack.lua
+
+or
+
+    $ cat ext/lua-5.3.4-tests/tpack.lua | vamos -C 68020 -m 8192 -s 4096 ami-lua.hunk -- -
+
+vamos can emulate 68000 and 68020 without FPU, so provide CCOPT accordingly
+when building.
+
+
+## Notes
+Some Lua scripts need lots of stack: 256 KiB is probably a very safe value.
+
+Some tests fail. For example files.tcl since the ASDF implementation of open()
+does not support opening the same file for both write and read.
+

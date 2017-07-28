@@ -1,0 +1,6 @@
+Execute the script install-ndk.sh, or manually put links to directories from
+NDK 3.9 here:
+* include_h
+* include_i
+* linker_libs
+

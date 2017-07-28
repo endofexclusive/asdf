@@ -1,0 +1,6 @@
+*.tar.gz
+*.md5
+build-*
+log
+opt
+

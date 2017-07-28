@@ -1,0 +1,32 @@
+# Board description file for executing m68k-asdf-elf toolchain on vamos.
+# Information extracted from the DejaGnu 1.6 documentation.
+
+# This is a list of toolchains that are supported on this board.
+set_board_info target_install {m68k-asdf-elf}
+
+# Load the generic configuration for this board. This will define a basic
+# set of routines needed by the tool to communicate with the board.
+load_generic_config "sim"
+
+# We need this for setup_sim
+load_base_board_description "basic-sim"
+
+# runtest can be started with CFLAGS_FOR_TARGET="-mcpu=68020" in RUNTESTFLAGS.
+
+process_multilib_options ""
+
+set_board_info compiler "[find_gcc]"
+
+set_board_info sim vamos
+set_board_info sim,options "-C 68020 -s 4096 -m 8192"
+
+# Used by a few gcc.c-torture testcases to delimit how large the
+# stack can be.
+set_board_info gcc,stack_size 4096
+set_board_info isremote 0
+set_board_info slow_simulator 0
+
+set timeout 30
+
+setup_sim asdf
+

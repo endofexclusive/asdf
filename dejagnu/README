@@ -1,0 +1,43 @@
+# PREPARATION
+Install vamos, which is available at
+    https://github.com/cnvogelg/amitools
+and add the vamos script to the PATH environment variable.
+
+Dejagnu is required. Version 1.5.1 has been tested.
+
+
+# TEST
+
+    $ cd build-gcc/gcc
+    $ DEJAGNU=$PWD/../../dejagnu/dejagnurc make check RUNTESTFLAGS='--target_board=vamos'
+
+
+Tests can be selected with RUNTESTFLAGS:
+
+    $ DEJAGNU=$PWD/../../dejagnu/dejagnurc make check RUNTESTFLAGS='--target_board=vamos builtins.exp=memcmp.c'
+
+
+In case vamos is not available in PATH, then add SIM=<vamos> to RUNTESTFLAGS.
+
+
+To schedule multiple tests and run them in parallel, use:
+
+    $ DEJAGNU=$PWD/../../dejagnu/dejagnurc make -j3 check-gcc//vamos/{-m68000,-m68020/-msoft-float,-m68020/-msoft-float/-mshort}
+
+
+# RESULTS
+Results end up here:
+
+* Summary: build-gcc/gcc/testsuite/gcc/gcc.sum
+* Log:     build-gcc/gcc/testsuite/gcc/gcc.log
+
+# SCRIPT
+The script named test.sh can be used to run the GCC test suite for the
+following combinations:
+* -m68000
+* -m68020 -msoft-float
+
+
+# ADDITIONAL INFORMATION
+https://github.com/cahirwpz/amigaos-cross-toolchain/tree/master/dejagnu
+

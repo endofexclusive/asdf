@@ -1,0 +1,19 @@
+# About
+This directory contains external dependencies for ASDF
+
+Download, extract and patch dependencies:
+
+    $ make extdep
+
+Remove dependencies:
+
+    $ make distclean
+
+
+Native Developer Kit for AmigaOS 3.9 is downloaded with the script
+named install-ndk.sh:
+
+    $ install-ndk.sh
+
+It takes the optional parameter 'force' to force remove old files and download.
+

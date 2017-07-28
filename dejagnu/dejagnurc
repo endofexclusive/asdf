@@ -1,0 +1,7 @@
+# runtest.exp will set boards_dir to "[file dirname $env(DEJAGNU)]/boards" when
+# boards_dir is empty...
+
+if [info exists boards_dir] {
+    unset boards_dir
+}
+

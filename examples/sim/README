@@ -1,0 +1,18 @@
+# ABOUT
+Helper script for running FS-UAE Amiga Emulator
+
+
+# PREPARATION
+Put a file named ks in this directory with an Amiga 500 kickstart file.
+
+
+# USAGE
+    $ asim.sh HUNKFILE
+
+This will create a link to HUNKFILE in fs/test. This file is tarted from
+fs/s/startup-sequence.
+
+
+# CUSTOMIZATION
+Modify a500.fs-uae to taste.
+
