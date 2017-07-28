@@ -74,7 +74,7 @@ $(GCCTAR):
 
 x-gcc: $(GCCTAR)
 	tar xzf $<
-	patch -N -p1 -d gcc < $(HERE)/gcc.patch || true
+	patch -N -p1 -d $(GCCDIR) < $(HERE)/gcc.patch || true
 
 
 f-newlib: $(NEWTAR)
