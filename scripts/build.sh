@@ -97,6 +97,13 @@ build_vlink() {
                 TARGET=$ASDFTOP/build-vlink/vlink \
                 DIR=$ASDFTOP/build-vlink/obj
         verb install -c $ASDFTOP/build-vlink/vlink $PREFIX/bin/${PROGPREFIX}vlink
+        # Link in the fresh vlink in a directory searched early by GCC,
+        # possibly via GCC_EXEC_PREFIX environment used for example when
+        # running test suite in GCC build directory before installation.
+        # Otherwise (an outdated) vlink in PATH could be selected, which is not
+        # what we want.
+        verb mkdir -p $PREFIX/$TARGET/bin
+        verb ln -f $PREFIX/bin/${PROGPREFIX}vlink $PREFIX/$TARGET/bin/${PROGPREFIX}vlink
         if [ $op_pdf -ne 0 ]; then
                 verb texi2dvi -p -o $ASDFTOP/build-vlink/vlink.pdf $ASDFTOP/ext/vlink/vlink.texi
                 verb install -c -m 644 $ASDFTOP/build-vlink/vlink.pdf $PREFIX/doc/vlink.pdf
