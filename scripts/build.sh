@@ -14,6 +14,7 @@ HOSTBITS=`uname -m | grep -e 32 -e 64 -o`
 HOSTOS=`uname -s | tr '[:upper:]' '[:lower:]'`
 HOSTDESC=$HOSTOS$HOSTBITS
 PKGVERSION="asdf-$GITDESC"
+ARCHBASE=${PKGVERSION}-${HOSTDESC}
 PROGPREFIX=asdf-
 
 CFGDEF=
@@ -235,7 +236,7 @@ dist() {
         verb cp $ASDFTOP/ext/install-ndk.sh $PREFIX/$TARGET/sys-root/
         verb cp $ASDFTOP/README.md $PREFIX/
 
-        archname=${PKGVERSION}-${HOSTDESC}.tar.gz
+        archname=${ARCHBASE}.tar.gz
 
         verb tar czf $ASDFTOP/$archname -C $ASDFTOP/opt asdf
         verb pushd $ASDFTOP
@@ -341,6 +342,8 @@ fi
 if [ $do_dist -ne 0 ]; then
         dist > >(tee log/dist.stdout) 2> >(tee log/dist.stderr >&2)
 fi
+
+tar czf $ASDFTOP/$ARCHBASE.log.tar.gz -C $ASDFTOP log
 
 sleep 1
 echo DONE "($0)"
