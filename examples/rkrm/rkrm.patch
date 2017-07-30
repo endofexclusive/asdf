@@ -1,0 +1,288 @@
+diff -Naur -X rkrm.exclude src-orig/exec_library/interrupts/rbf.c src-patched/exec_library/interrupts/rbf.c
+--- src-orig/exec_library/interrupts/rbf.c	1992-09-03 10:04:58.000000000 +0200
++++ src-patched/exec_library/interrupts/rbf.c	2017-08-05 13:09:40.503286000 +0200
+@@ -62,7 +62,7 @@
+ 
+ struct MiscResource *MiscBase;
+ extern struct ExecBase *SysBase;
+-extern struct Custom far custom;    /* defined in amiga.lib */
++extern struct Custom custom;    /* defined in amiga.lib */
+ 
+ static UBYTE *allocname = "rbf-example";
+ 
+@@ -160,4 +160,4 @@
+             }
+         }
+     } /* There is no 'CloseResource()' function */
+-}
+\ No newline at end of file
++}
+diff -Naur -X rkrm.exclude src-orig/exec_library/tasks/trap_c.c src-patched/exec_library/tasks/trap_c.c
+--- src-orig/exec_library/tasks/trap_c.c	1992-09-03 10:03:22.000000000 +0200
++++ src-patched/exec_library/tasks/trap_c.c	2017-08-05 13:09:40.506693000 +0200
+@@ -46,11 +46,14 @@
+ 
+ APTR oldTrapCode;
+ ULONG countdiv0;
++ULONG divider = 0;
+ 
+ void main(int argc, char **argv)
+ {
+     struct Task *thistask;
+-    ULONG k,j;
++    ULONG k;
++    /* Force compiler to store result of division. */
++    volatile ULONG j;
+ 
+     thistask = FindTask(NULL);
+ 
+@@ -66,10 +69,15 @@
+     for(k=0; k<4; k++)            /* Let's divide by zero a few times */
+        {
+        printf("dividing %ld by zero... ",k);
+-       j = k/0L;
++       /* Force compiler to divide since divider is unknown at compile time. */
++       j = k/divider;
+        printf("did it\n");
+        }
++    /*
++     * NOTE: Can be more than number of loops if dividing via software routine
++     * (68000).
++     */
+     printf("\nDivide by zero happened %ld times\n",countdiv0);
+ 
+     thistask->tc_TrapCode = oldTrapCode;     /* Restore old trap code */
+-}
+\ No newline at end of file
++}
+diff -Naur -X rkrm.exclude src-orig/graphics_libraries/primitives/UserCopperExample.c src-patched/graphics_libraries/primitives/UserCopperExample.c
+--- src-orig/graphics_libraries/primitives/UserCopperExample.c	1992-09-03 10:06:42.000000000 +0200
++++ src-patched/graphics_libraries/primitives/UserCopperExample.c	2017-08-05 13:09:40.509640000 +0200
+@@ -49,7 +49,7 @@
+ #include <stdlib.h>
+ 
+ /*  Use this structure to gain access to the custom registers.  */
+-extern struct Custom far custom;
++extern struct Custom custom;
+ 
+ /*  Global variables.  */
+ struct GfxBase        *GfxBase = NULL;
+@@ -242,4 +242,4 @@
+ 	CloseLibrary((struct Library *)GfxBase);
+ 
+ exit((int)retval);
+-}
+\ No newline at end of file
++}
+diff -Naur -X rkrm.exclude src-orig/graphics_libraries/primitives/genlockdemo.c src-patched/graphics_libraries/primitives/genlockdemo.c
+--- src-orig/graphics_libraries/primitives/genlockdemo.c	1992-09-03 10:06:26.000000000 +0200
++++ src-patched/graphics_libraries/primitives/genlockdemo.c	2017-08-05 13:09:40.510387000 +0200
+@@ -36,7 +36,7 @@
+ #include <graphics/gfx.h>
+ #include <graphics/gfxbase.h>
+ #include <graphics/displayinfo.h>
+-#include <graphics/VideoControl.h>
++#include <graphics/videocontrol.h>
+ #include <graphics/view.h>
+ #include <intuition/intuition.h>
+ #include <intuition/screens.h>
+diff -Naur -X rkrm.exclude src-orig/input/Swap_Buttons.c src-patched/input/Swap_Buttons.c
+--- src-orig/input/Swap_Buttons.c	1992-09-03 10:29:44.000000000 +0200
++++ src-patched/input/Swap_Buttons.c	2017-08-05 13:09:40.515345000 +0200
+@@ -77,7 +77,7 @@
+ 
+ extern VOID ButtonSwap();
+ 
+-extern struct IntuitionBase *IntuitionBase;
++struct IntuitionBase *IntuitionBase;
+ 
+ /*
+  * This routine opens a window and waits for the one event that
+diff -Naur -X rkrm.exclude src-orig/intuition/boopsi/RKMButClass.c src-patched/intuition/boopsi/RKMButClass.c
+--- src-orig/intuition/boopsi/RKMButClass.c	1992-09-03 10:19:36.000000000 +0200
++++ src-patched/intuition/boopsi/RKMButClass.c	2017-08-05 13:09:40.516275000 +0200
+@@ -250,9 +250,11 @@
+     ULONG retval = FALSE;
+     Object *object;
+ 
++#if 0
+     /* SAS/C and Manx function to make sure register A4
+        contains a pointer to global data */
+     geta4();
++#endif
+ 
+     switch (msg->MethodID)
+     {
+diff -Naur -X rkrm.exclude src-orig/intuition/boopsi/RKMModel.c src-patched/intuition/boopsi/RKMModel.c
+--- src-orig/intuition/boopsi/RKMModel.c	1992-09-03 10:19:28.000000000 +0200
++++ src-patched/intuition/boopsi/RKMModel.c	2017-08-05 13:09:40.516414000 +0200
+@@ -114,7 +114,9 @@
+                          /* meaning of this field depends on the method.  For example,           */
+                          /* OM_GET uses this a a boolean return value, while OM_NEW              */
+                          /* uses it as a pointer to the new object.                              */
++#if 0
+     geta4();    /* SAS/C and Manx function - makes sure A4 contains global data pointer.         */
++#endif
+ 
+     switch (msg->MethodID)
+     {
+diff -Naur -X rkrm.exclude src-orig/intuition/boopsi/userkmmodel.c src-patched/intuition/boopsi/userkmmodel.c
+--- src-orig/intuition/boopsi/userkmmodel.c	1992-09-03 10:19:50.000000000 +0200
++++ src-patched/intuition/boopsi/userkmmodel.c	2017-08-05 13:09:40.517108000 +0200
+@@ -44,7 +44,7 @@
+ #include <clib/dos_protos.h>
+ #include <stdio.h>
+ 
+-#include "RKMModel.h"
++#include "rkmmodel.h"
+ 
+ #ifdef LATTICE
+ int CXBRK(void) { return(0); }  /* Disable Lattice CTRL/C handling */
+diff -Naur -X rkrm.exclude src-orig/intuition/mouse_keyboard/mousetest.c src-patched/intuition/mouse_keyboard/mousetest.c
+--- src-orig/intuition/mouse_keyboard/mousetest.c	1992-09-03 10:19:04.000000000 +0200
++++ src-patched/intuition/mouse_keyboard/mousetest.c	2017-08-05 13:09:40.520945000 +0200
+@@ -78,6 +78,11 @@
+ struct Library *IntuitionBase;
+ struct GfxBase       *GfxBase;  /* we need GfxBase->DefaultFont */
+ 
++static WORD max(WORD a, WORD b)
++{
++        return a < b ? b : a;
++}
++
+ 
+ /*
+ ** main() -- set-up everything.
+@@ -212,7 +217,7 @@
+                 ** upper left hand corner of our window
+                 */
+                 Move(win->RPort,xText,yText);
+-                sprintf(prt_buff, "X%5d Y%5d", msg->MouseX, msg->MouseY);
++                sprintf(prt_buff, "X%5ld Y%5ld", msg->MouseX, msg->MouseY);
+                 Text(win->RPort,prt_buff,13);
+                 break;
+             case IDCMP_MOUSEBUTTONS:
+diff -Naur -X rkrm.exclude src-orig/intuition/screens/dualplayfield.c src-patched/intuition/screens/dualplayfield.c
+--- src-orig/intuition/screens/dualplayfield.c	1992-09-03 10:20:38.000000000 +0200
++++ src-patched/intuition/screens/dualplayfield.c	2017-08-05 13:09:40.522647000 +0200
+@@ -43,7 +43,7 @@
+ #include <clib/graphics_protos.h>
+ 
+ VOID doDualPF ( struct Window * );
+-BOOL installDualPF( struct Screen *, struct RastInfo * );
++BOOL installDualPF( struct Screen *, struct RasInfo * );
+ VOID drawSomething( struct RastPort * );
+ VOID handleIDCMP ( struct Window * );
+ VOID removeDualPF( struct Screen *s );
+@@ -155,7 +155,7 @@
+ ** Manhandle the viewport:
+ ** install second playfield and change modes
+ */
+-BOOL installDualPF(struct Screen *scrn, struct RastInfo *rinfo2)
++BOOL installDualPF(struct Screen *scrn, struct RasInfo *rinfo2)
+ {
+ ULONG screen_modeID;
+ BOOL return_code = FALSE;
+diff -Naur -X rkrm.exclude src-orig/keyboard/Key_Reset.c src-patched/keyboard/Key_Reset.c
+--- src-orig/keyboard/Key_Reset.c	1992-09-03 10:30:22.000000000 +0200
++++ src-patched/keyboard/Key_Reset.c	2017-08-05 13:09:40.524864000 +0200
+@@ -73,7 +73,7 @@
+                         WINDOWDRAG|WINDOWCLOSE|SIMPLE_REFRESH|NOCAREREFRESH,
+                         NULL,NULL,NameString,NULL,NULL,0,0,0,0,WBENCHSCREEN};
+ 
+-extern struct IntuitionBase *IntuitionBase;
++struct IntuitionBase *IntuitionBase;
+ 
+ struct MyData
+     {
+diff -Naur -X rkrm.exclude src-orig/keymap/appkeymap.c src-patched/keymap/appkeymap.c
+--- src-orig/keymap/appkeymap.c	1992-09-03 10:37:12.000000000 +0200
++++ src-patched/keymap/appkeymap.c	2017-08-05 13:09:40.525656000 +0200
+@@ -133,7 +133,7 @@
+ void DeleteAppKeyMap(struct KeyMap *appkeymap);
+ 
+ /* local functions */
+-static void CopyKeyMap(struct KeyMap *source, struct AppKeyMap *dest);
++static void CopyKeyMap(struct KeyMap *source, struct KeyMap *dest);
+ static void AlterAppKeyMap(struct KeyMap *appkeymap);
+ 
+ 
+diff -Naur -X rkrm.exclude src-orig/preferences/showprefs.c src-patched/preferences/showprefs.c
+--- src-orig/preferences/showprefs.c	1992-09-03 10:13:06.000000000 +0200
++++ src-patched/preferences/showprefs.c	2017-08-05 13:09:40.530095000 +0200
+@@ -60,8 +60,7 @@
+ #include <clib/dos_protos.h>
+ #include <clib/iffparse_protos.h>
+ 
+-struct ExecBase *SysBase;
+-struct Library *DOSBase;
++extern struct Library *DOSBase;
+ struct Library *IFFParseBase;
+ 
+ static UBYTE *IFFErrTxt[] = {
+@@ -90,14 +89,11 @@
+   UBYTE *filename = NULL;
+   LONG ifferror, error = 0, rc = RETURN_OK;
+ 
+-  /* We must set up SysBase (we are not linked with startup code) */
+-  SysBase = (*((struct Library **) 4));
+-
+   /* This no-startup-code example may not be used from Workbench */
+   if ((((struct Process *)FindTask(NULL))->pr_CLI)==NULL)
+         return(RETURN_FAIL);
+ 
+-  if (DOSBase = OpenLibrary("dos.library", 37)) {
++  if (37 <= DOSBase->lib_Version) {
+     if (IFFParseBase = OpenLibrary ("iffparse.library", 37)) {
+ 
+       readargs = ReadArgs("FILE/A", rargs, NULL);
+@@ -193,7 +189,7 @@
+                   /* etc */
+                 } else if (sp = FindProp(iffhandle, ID_PREF, ID_SCRM)) {
+                   Printf("DisplayID:  0x%lx\n",
+-                        ((struct ScreenModePrefs *)sp->sp_Data)->sm_DisplayID);
++                        ((struct ScreenModePrefs *)sp->sp_Data)->smp_DisplayID);
+                   /* etc */
+                 } else if (sp = FindProp(iffhandle, ID_PREF, ID_SERL)) {
+                   Printf("BaudRate:   %ld\n",
+@@ -233,7 +229,6 @@
+     }
+ 
+     if(readargs) FreeArgs(readargs);
+-    CloseLibrary(DOSBase);
+ 
+   } else {
+       rc = RETURN_FAIL;
+diff -Naur -X rkrm.exclude src-orig/resources/Read_Potinp.c src-patched/resources/Read_Potinp.c
+--- src-orig/resources/Read_Potinp.c	1992-09-03 10:26:48.000000000 +0200
++++ src-patched/resources/Read_Potinp.c	2017-08-05 13:09:40.535360000 +0200
+@@ -68,7 +68,7 @@
+ #define OUTRX 1L<<13
+ #define DATRX 1L<<12
+ 
+-extern struct Custom far custom;
++extern struct Custom custom;
+ 
+ void main(int argc,char **argv)
+ {
+diff -Naur -X rkrm.exclude src-orig/trackdisk/Track_Copy.c src-patched/trackdisk/Track_Copy.c
+--- src-orig/trackdisk/Track_Copy.c	1992-09-03 10:26:02.000000000 +0200
++++ src-patched/trackdisk/Track_Copy.c	2017-08-05 13:09:40.540581000 +0200
+@@ -42,7 +42,7 @@
+ #include <exec/types.h>
+ #include <exec/memory.h>
+ #include <devices/trackdisk.h>
+-#include <dos/dosextens.h> */
++#include <dos/dosextens.h>
+ 
+ #include <clib/exec_protos.h>
+ #include <clib/alib_protos.h>
+@@ -289,7 +289,7 @@
+          }
+      else while (params == OKAY && j<3)
+                {
+-               if (strnicmp(argv[j],"df",2)==0)
++               if (strncmp(argv[j],"df",2)==0)
+                    {
+                    if (argv[j][2] >= '0' && argv[j][2] <= '3' && argv[j][3] == '\0')
+                        {
