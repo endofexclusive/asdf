@@ -20,8 +20,13 @@ fi
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ASDFTOP="$( readlink -f "${SCRIPTDIR}/..")"
 
+JOBS=-j4
+if [ $HOSTOS = freebsd ]; then
+        JOBS=
+fi
+
 pushd $ASDFTOP/build-gcc/gcc
-DEJAGNU=$ASDFTOP/dejagnu/dejagnurc $gmake -j4 check-gcc//vamos/{-m68000,-m68020/-msoft-float}
+DEJAGNU=$ASDFTOP/dejagnu/dejagnurc $gmake $JOBS check-gcc//vamos/{-m68000,-m68020/-msoft-float}
 
 d=$(./xgcc --version|grep -o "(asdf-.\+)" | tr -d "()")
 dd="$SCRIPTDIR/$d-$HOSTDESC"
