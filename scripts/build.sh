@@ -227,7 +227,8 @@ build_glue() {
 dist() {
         verb "git archive --format=tar HEAD examples | tar xvf - -C $PREFIX"
         verb pushd $PREFIX
-        verb "find $TARGET/bin bin libexec -type f | xargs strip" || true
+        verb echo "Stripping binaries..."
+        verb "find $TARGET/bin bin libexec -type f -print -exec strip {} \;"
         verb popd
 
         verb rm -rf $PREFIX/$TARGET/sys-root/ndk*
