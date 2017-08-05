@@ -1,9 +1,11 @@
 # PREPARATION
-Install vamos, which is available at
-    https://github.com/cnvogelg/amitools
-and add the vamos script to the PATH environment variable.
+The GCC test suite execution tests run in the vamos (virtual AmigaOS) runtime.
 
-Dejagnu is required. Version 1.5.1 has been tested.
+Install vamos, available at
+    https://github.com/cnvogelg/amitools
+and add vamos to the PATH environment variable.
+
+Dejagnu is required. Version 1.5.1 and 1.6 have been tested.
 
 
 # TEST
@@ -30,6 +32,7 @@ Results end up here:
 
 * Summary: build-gcc/gcc/testsuite/gcc/gcc.sum
 * Log:     build-gcc/gcc/testsuite/gcc/gcc.log
+
 
 # SCRIPT
 The script named test.sh can be used to run the GCC test suite for the
