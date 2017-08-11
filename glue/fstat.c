@@ -13,7 +13,7 @@
  *   newlib/libc/stdio$ git grep "\.st_"
  *
  * - st_mode (S_IFREG, S_IFCHR, S_IFDIR)
- * - st_size (only for used for Red Hat EL/IX higher levels)
+ * - st_size (used by lseek() when fseek-optimization is enabled)
  */
 
 int fstat(int fildes, struct stat *buf)
