@@ -79,7 +79,7 @@ genlinks() {
 # Bootstrap prefix directory
 pre() {
         verb mkdir -p $PREFIX/bin $PREFIX/doc
-        verb $gmake -C $ASDFTOP/ext extdep
+        verb $gmake -C $ASDFTOP/ext clean extdep
         verb $ASDFTOP/ext/install-ndk.sh
         verb "git archive --format=tar HEAD:extradist/ | tar xvf - -C $PREFIX"
         verb ln -s -f $ASDFTOP/ext/ndk-3.9 $PREFIX/$TARGET/sys-root/
