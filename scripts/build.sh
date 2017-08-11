@@ -195,6 +195,7 @@ build_newlib() {
                 --enable-newlib-io-long-long \
                 --disable-newlib-atexit-dynamic-alloc \
                 --enable-newlib-global-atexit \
+                --disable-newlib-fseek-optimization \
                 --disable-shared \
                 --enable-static \
                 --disable-libgloss
