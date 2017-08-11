@@ -41,6 +41,13 @@ extdep: extract-all
 fetch-all:      f-vlink f-vasm f-binutils f-gcc f-newlib
 extract-all:    x-vlink x-vasm x-binutils x-gcc x-newlib
 
+clean:
+	rm -rf $(VLINK_DIR)
+	rm -rf $(VASM_DIR)
+	rm -rf $(BINDIR)
+	rm -rf $(GCCDIR)
+	rm -rf $(NEWDIR)
+
 distclean:
 	rm -rf $(VLINK_TAR) $(VLINK_DIR)
 	rm -rf $(VASM_TAR) $(VASM_DIR)
