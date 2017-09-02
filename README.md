@@ -333,7 +333,7 @@ be used.  See the `README` files in each subdirectory for more information.
 
 
 ## Development information
-For inforamtion on how to rebuild selected parts of the toolchain, see
+For information on how to rebuild selected parts of the toolchain, see
 [scripts/build.sh](scripts/build.sh).
 
 A TODO list is available in [TODO.md](TODO.md).
