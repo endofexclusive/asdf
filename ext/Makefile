@@ -5,7 +5,7 @@
 VLINK_VER       = 0.16
 VASM_VER        = 1.8
 BINUTILS_VER    = 2.28
-GCC_VER         = 7.1.0
+GCC_VER         = 7.2.0
 NEWLIB_VER      = 2.5.0.20170720
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
