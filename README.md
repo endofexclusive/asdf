@@ -293,7 +293,7 @@ provide your own startup object file as the first object to the linker.
 can be used.
 
 
-### Default compiler options
+## Default compiler options
 The following compiler options are implied (GCC specs):
 
 * `-fno-omit-frame-pointer` which prevents the compiler from reserving an
