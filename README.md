@@ -77,6 +77,7 @@ ASDF is currently distributed in source code format.
 *ASDF* is known to build successfully in the following environments:
 
 * *Debian GNU/Linux 8.8 (jessie)*
+* *Debian GNU/Linux 9.1 (stretch)*
 * *FreeBSD 11.1*
 
 
