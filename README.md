@@ -13,7 +13,7 @@ files for *AmigaOS* (680x0).
 
 Included components:
 
-*   [GNU Compiler Collection 7.1](https://gcc.gnu.org)
+*   [GNU Compiler Collection 7.2.0](https://gcc.gnu.org)
     For compiling C source code. GCC is licensed under GPL.
 
 *   [GNU Binutils 2.28](https://www.gnu.org/software/binutils/)
