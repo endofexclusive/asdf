@@ -294,6 +294,38 @@ provide your own startup object file as the first object to the linker.
 can be used.
 
 
+## 16-bit integer considerations
+With the compiler option `-mshort`, the `int` type becomes 16 bits wide instead
+of 32 bits. This is useful on the 68000 processor which has a 16-bit data bus,
+or as a general way to save data cache.
+
+The function calling convention is different between compiling with and without
+`-mshort`: integer parameters occupy one 16-bit word on the stack instead of
+one 32-bit longword. Thus it is not possible to link object files compiled with
+and without `-mshort`. One implication of this is that an application compiled
+with `-mshort` can not be linked with the *Newlib* `libc.a` or `libm.a`, since
+they are compiled with 32-bit integers.
+
+Furthermore, the compiler itself may generate calls to `memcmp()`, `memset()`,
+`memcpy()` and `memmove()` in some situations, for example when copying objects
+or initializing data structures on the stack.  A workaround is to manually
+provide `-mshort` implementations for these functions when linking the
+applicaton.
+
+A safe way to link a 16-bit integer application is to use the options
+`-nostdlib` or `-nodefaultlibs` and then resolve any missing references
+manually.
+
+Using the *nano startup* (`-qnstart`) together with `-mshort` has a limitation
+with regard to how the return value of `main()` is transferred to the shell as
+an *AmigaDOS* return code.  `main()` will return a 16-bit value in `d0` while
+*AmigaDOS* interprets the full 32-bit value of `d0` as the program result, and
+will sometimes emit an error message. A workaround is described in
+[nstart.s](glue/nstart.s).
+
+Compiling *Newlib* with `-mshort` does not seem to be supported.
+
+
 ## Default compiler options
 The following compiler options are implied (GCC specs):
 
