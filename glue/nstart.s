@@ -1,8 +1,6 @@
-; pico start
-; Fast and simple for applications not using the C standard library. Simple C
-; standard library functions without system side-effects should work however.
-; All AmigaOS libraries have to be opened by the user, including initializing
-; SysBase.
+; nano start
+; Fast and simple for applications not using the C standard library. SysBase is
+; initialized. All other AmigaOS libraries have to be opened by the user.
 
         xdef    ___nstart
         xdef    _SysBase
@@ -17,6 +15,13 @@ ___nstart:
         clr.l   -(sp)
         jsr     _main
         addq.l  #8, sp
+
+; DOS return code is d0 interpreted as a LONG. If main() was compiled with
+; 16-bit integers then we need to sign extend its return value.
+        ifd NSTART_MSHORT
+                ext.l   d0
+        endif
+
         rts
 
         section bss
