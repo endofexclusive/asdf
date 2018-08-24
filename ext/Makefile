@@ -4,7 +4,7 @@
 # Version Configuration
 VLINK_VER       = 0.16
 VASM_VER        = 1.8
-BINUTILS_VER    = 2.28
+BINUTILS_VER    = 2.31.1
 GCC_VER         = 7.3.0
 NEWLIB_VER      = 2.5.0.20170720
 

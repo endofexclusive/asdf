@@ -16,7 +16,7 @@ Included components:
 *   [GNU Compiler Collection 7.3.0](https://gcc.gnu.org)
     For compiling C source code. GCC is licensed under GPL.
 
-*   [GNU Binutils 2.28](https://www.gnu.org/software/binutils/)
+*   [GNU Binutils 2.31.1](https://www.gnu.org/software/binutils/)
     Includes assembler and various ELF file utilities. Binutils is licensed
     under GPL.
 
