@@ -1,4 +1,5 @@
 TOP = $(abspath .)
+LHA ?= lha
 
 all:
 	$(MAKE) -C src TOP=$(TOP) all
@@ -29,8 +30,8 @@ $(DEVS_NAME) $(LIBS_NAME):
 extract: $(DEVS_NAME) $(LIBS_NAME)
 	rm -rf src-orig
 	mkdir -p src-orig
-	cd src-orig; lha x ../$(DEVS_NAME)
-	cd src-orig; lha x ../$(LIBS_NAME)
+	cd src-orig; $(LHA) x ../$(DEVS_NAME)
+	cd src-orig; $(LHA) x ../$(LIBS_NAME)
 
 .PHONY: patch
 patch:

@@ -12,6 +12,7 @@ EXTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 NDK_VER=3.9
 NDK_FILE=ndk-3.9.lha
 NDK_URL=http://www.haage-partner.de/download/AmigaOS/NDK39.lha
+LHA=${LHA-lha}
 
 do_force=${1-"keep"}
 if [ $do_force = "force" ]; then
@@ -29,7 +30,7 @@ mustexist() {
     fi
 }
 
-mustexist lha
+mustexist $LHA
 mustexist curl
 
 pushd $EXTDIR >/dev/null
@@ -40,7 +41,7 @@ if [ ! -f $NDK_FILE ]; then
 fi
 
 if [ ! -d ndk-$NDK_VER ]; then
-        lha x $NDK_FILE > /dev/null
+        $LHA x $NDK_FILE > /dev/null
         # fixup ndk filenames
         mv NDK_$NDK_VER ndk-$NDK_VER
         mv ndk_$NDK_VER/* ndk-$NDK_VER
