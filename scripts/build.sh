@@ -252,7 +252,7 @@ usage() {
         echo "Usage: $0 [OPTION]... WHAT..."
         echo ""
         echo "OPTION:"
-        echo "  -nopdf          - Do not generate PDF files"
+        echo "  --nopdf         - Do not generate PDF files"
         echo "WHAT:"
         echo "  pre             - Bootstrap and fetch external archives"
         echo "  vtools          - vlink, vasm"
