@@ -1,5 +1,6 @@
-LUASRC = ext/lua-5.3.4/src/
-LUATESTS = ext/lua-5.3.4-tests/
+LUAVER = 5.3.4
+LUASRC = ext/lua-$(LUAVER)/src/
+LUATESTS = ext/lua-$(LUAVER)-tests/
 LIBLUA = $(LUASRC)/liblua.a
 
 CCOPT  = -O3
@@ -38,10 +39,10 @@ $(LIBLUA):
 .PHONY: fetch
 fetch:
 	mkdir -p ext
-	curl -R -O http://www.lua.org/ftp/lua-5.3.4.tar.gz
-	curl -R -O https://www.lua.org/tests/lua-5.3.4-tests.tar.gz
-	tar xzf lua-5.3.4.tar.gz -C ext
-	tar xzf lua-5.3.4-tests.tar.gz -C ext
+	curl -R -O http://www.lua.org/ftp/lua-$(LUAVER).tar.gz
+	curl -R -O https://www.lua.org/tests/lua-$(LUAVER)-tests.tar.gz
+	tar xzf lua-$(LUAVER).tar.gz -C ext
+	tar xzf lua-$(LUAVER)-tests.tar.gz -C ext
 
 .PHONY: clean
 clean:
