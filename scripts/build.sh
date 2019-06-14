@@ -16,6 +16,7 @@ HOSTDESC=$HOSTOS$HOSTBITS
 PKGVERSION="asdf-$GITDESC"
 ARCHBASE=${PKGVERSION}-${HOSTDESC}
 PROGPREFIX=asdf-
+NCPU=`getconf _NPROCESSORS_ONLN 2>/dev/null || getconf NPROCESSORS_ONLN 2>/dev/null || echo 1`
 
 CFGDEF=
 CFGDEF="$CFGDEF --target=$TARGET"
@@ -141,10 +142,10 @@ build_binutils() {
                 $CFGDEF \
                 $CFGHOST \
                 --disable-gdb
-        verb $gmake -j 3 all
+        verb $gmake -j $NCPU all
         verb $gmake install
         if [ $op_pdf -ne 0 ]; then
-                verb $gmake -j 4 pdf
+                verb $gmake -j $NCPU pdf
                 verb $gmake install-pdf
         fi
         verb popd
@@ -172,10 +173,10 @@ build_gcc1() {
                 --disable-intl \
                 --without-headers \
                 --with-newlib
-        verb $gmake -j 4 all-host
+        verb $gmake -j $NCPU all-host
         verb $gmake install-host
         if [ $op_pdf -ne 0 ]; then
-                verb $gmake -j 4 pdf-host
+                verb $gmake -j $NCPU pdf-host
                 verb $gmake install-pdf-host
         fi
         verb popd
@@ -199,10 +200,10 @@ build_newlib() {
                 --disable-shared \
                 --enable-static \
                 --disable-libgloss
-        verb $gmake -j 4 all
+        verb $gmake -j $NCPU all
         verb $gmake install
         if [ $op_pdf -ne 0 ]; then
-                verb $gmake -j 4 pdf
+                verb $gmake -j $NCPU pdf
                 verb $gmake install-pdf
         fi
         verb popd
@@ -210,7 +211,7 @@ build_newlib() {
 
 build_gcc2() {
         verb pushd $ASDFTOP/build-gcc
-        verb $gmake -j 4 all-target
+        verb $gmake -j $NCPU all-target
         verb $gmake install-target
         verb popd
 }
