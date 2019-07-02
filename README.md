@@ -78,7 +78,7 @@ ASDF is currently distributed in source code format.
 
 * *Debian GNU/Linux 8.8 (jessie)*
 * *Debian GNU/Linux 9.1 (stretch)*
-* *FreeBSD 11.1*
+* *FreeBSD 12.0*
 
 
 The following software has to be preinstalled in the system:
@@ -93,8 +93,8 @@ The following software has to be preinstalled in the system:
 * Compiler for build system (GCC or Clang)
 * GCC build dependencies (see the document titled *Installing GCC*)
 
-To Install prerequisites in *FreeBSD 11.1*:
-`$ pkg install curl lha bash tcl86 texinfo texlive-full gmake mpc`
+To Install prerequisites in *FreeBSD 12.0*:
+`$ pkg install curl lhasa bash tcl86 texinfo texlive-full gmake mpc`
 
 Use the following command to build *ASDF* from source:
 
