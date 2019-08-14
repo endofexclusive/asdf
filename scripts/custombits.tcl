@@ -58,6 +58,7 @@ list \
               [list lpen 3] \
               [list lace] \
               [list ersy] \
+              [list enbplcn3] \
       ] \
       [list bplcon1 \
               [list pf2h3 7] \
@@ -70,6 +71,28 @@ list \
               [list pf1h1] \
               [list pf1h0] \
               [list pf1h 0 0xf] \
+      ] \
+      [list bplcon2 \
+              [list zdbpsel2 14] \
+              [list zdbpsel1] \
+              [list zdbpsel0] \
+              [list zdbpsel 12 0x7] \
+              [list zdbpen 11] \
+              [list zdcten] \
+              [list killehb] \
+              [list pf2pri 6] \
+              [list pf2p2] \
+              [list pf2p1] \
+              [list pf2p0] \
+              [list pf2p 3 0x7] \
+              [list pf1p2 2] \
+              [list pf1p1] \
+              [list pf1p0] \
+              [list pf1p 0 0x7] \
+      ] \
+      [list bplcon3 \
+              [list brdrblnk 5] \
+              [list brdntran] \
       ] \
       [list serdat \
               [list ovrun] \
