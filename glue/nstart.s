@@ -16,11 +16,9 @@ ___nstart:
         jsr     _main
         addq.l  #8, sp
 
-; DOS return code is d0 interpreted as a LONG. If main() was compiled with
-; 16-bit integers then we need to sign extend its return value.
-        ifd NSTART_MSHORT
-                ext.l   d0
-        endif
+; DOS return code is d0 interpreted as a LONG. Assume main() does not depend on
+; int being 32-bit.
+        ext.l   d0
 
         rts
 

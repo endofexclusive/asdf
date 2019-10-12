@@ -284,6 +284,8 @@ Some notable limitations when using the `nstart.o` startup code:
   functions internally, which means that functions such as `snprintf()` can not
   be used with the nano startup and will likely end up in linker errors.
 * `exit()`, `abort()` and `atexit()` will not work.
+* The `main()` return value is interpreted as a 16-bit signed integer which is
+  sign extended before passing it as return code (32-bit) to *AmigaDOS*.
 
 Nano startup is implemented in [nstart.s](glue/nstart.s).
 
@@ -315,13 +317,6 @@ applicaton.
 A safe way to link a 16-bit integer application is to use the options
 `-nostdlib` or `-nodefaultlibs` and then resolve any missing references
 manually.
-
-Using the *nano startup* (`-qnstart`) together with `-mshort` has a limitation
-with regard to how the return value of `main()` is transferred to the shell as
-an *AmigaDOS* return code.  `main()` will return a 16-bit value in `d0` while
-*AmigaDOS* interprets the full 32-bit value of `d0` as the program result, and
-will sometimes emit an error message. A workaround is described in
-[nstart.s](glue/nstart.s).
 
 Compiling *Newlib* with `-mshort` does not seem to be supported.
 
