@@ -4,7 +4,7 @@
 # Version Configuration
 VLINK_VER       = 0.16
 VASM_VER        = 1.8
-BINUTILS_VER    = 2.31.1
+BINUTILS_VER    = 2.34
 GCC_VER         = 7.5.0
 NEWLIB_VER      = 2.5.0.20170720
 
@@ -28,7 +28,7 @@ GCCDIR  = gcc-$(GCC_VER)
 NEWDIR  = newlib-$(NEWLIB_VER)
 
 GNURL   = http://ftpmirror.gnu.org/gnu
-BINTAR  = $(BINDIR).tar.gz
+BINTAR  = $(BINDIR).tar.xz
 GCCTAR  = $(GCCDIR).tar.xz
 
 NEWURL  = ftp://sourceware.org/pub/newlib/
@@ -73,7 +73,7 @@ $(BINTAR):
 	curl -L -R $(GNURL)/binutils/$(BINTAR) -o $@
 
 x-binutils: $(BINTAR)
-	tar xzf $<
+	tar xf $<
 
 f-gcc: $(GCCTAR)
 $(GCCTAR):
