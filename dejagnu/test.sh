@@ -20,7 +20,8 @@ fi
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ASDFTOP="$( readlink -f "${SCRIPTDIR}/..")"
 
-JOBS=-j4
+NCPU=`getconf _NPROCESSORS_ONLN 2>/dev/null || getconf NPROCESSORS_ONLN 2>/dev/null || echo 1`
+JOBS=-j${NCPU}
 if [ $HOSTOS = freebsd ]; then
         JOBS=
 fi
