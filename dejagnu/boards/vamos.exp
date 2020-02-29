@@ -18,7 +18,7 @@ process_multilib_options ""
 set_board_info compiler "[find_gcc]"
 
 set_board_info sim vamos
-set_board_info sim,options "-C 68020 -s 4096 -m 8192"
+set_board_info sim,options "-C 68020 -s 4096 -m 8192 --vols-base-dir vols-base-dir"
 
 # Used by a few gcc.c-torture testcases to delimit how large the
 # stack can be.
