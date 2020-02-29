@@ -6,6 +6,8 @@
         xdef    _SysBase
 
         section code
+; a0: Command line, excl. command, plus a newline. not terminated
+; d0: Number of bytes in cmdline
 ___nstart:
         move.l  4.W, _SysBase
 ; NOTE: It is guaranteed that argc is non-negative and that argv[argc] is NULL.
