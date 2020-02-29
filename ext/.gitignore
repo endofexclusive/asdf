@@ -5,6 +5,6 @@ vasm
 binutils-*
 gcc-*.*.*
 gcc-git
-newlib-*
+newlib-*.*
 ndk-*
 

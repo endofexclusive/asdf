@@ -34,7 +34,7 @@ Included components:
     *vasm* is copyright Frank Wille. See the *vasm* web page or the document
     `vasm.pdf` for more information on license conditions.
 
-*   [Newlib C library](https://sourceware.org/newlib/)
+*   [Newlib C library 3.3.0](https://sourceware.org/newlib/)
 
     *newlib* is an implementation of the C standard library intended for use on
     embedded systems.

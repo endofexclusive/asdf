@@ -6,7 +6,7 @@ VLINK_VER       = 0.16
 VASM_VER        = 1.8
 BINUTILS_VER    = 2.34
 GCC_VER         = 7.5.0
-NEWLIB_VER      = 2.5.0.20170720
+NEWLIB_VER      = 3.3.0
 
 mkfile_path := $(abspath $(lastword $(MAKEFILE_LIST)))
 mkfile_dir := $(patsubst %/,%,$(dir $(mkfile_path)))
@@ -89,6 +89,6 @@ $(NEWTAR):
 	curl -L -R $(NEWURL)/$(NEWTAR) -o $@
 
 x-newlib: $(NEWTAR)
-	tar xzf $<
-	patch -N -p1 -d newlib < $(HERE)/newlib.patch || true
+	tar xf $<
+	tar -C newlib-replace -c -O . | tar -C $(NEWDIR) -x -v
 
