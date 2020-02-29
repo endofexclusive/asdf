@@ -3,7 +3,8 @@
 vlink
 vasm
 binutils-*
-gcc-*
+gcc-*.*.*
+gcc-git
 newlib-*
 ndk-*
 

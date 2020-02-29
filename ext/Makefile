@@ -29,7 +29,7 @@ NEWDIR  = newlib-$(NEWLIB_VER)
 
 GNURL   = http://ftpmirror.gnu.org/gnu
 BINTAR  = $(BINDIR).tar.gz
-GCCTAR  = $(GCCDIR).tar.gz
+GCCTAR  = $(GCCDIR).tar.xz
 
 NEWURL  = ftp://sourceware.org/pub/newlib/
 NEWTAR  = $(NEWDIR).tar.gz
@@ -80,8 +80,8 @@ $(GCCTAR):
 	curl -L -R $(GNURL)/gcc/$(GCCDIR)/$(GCCTAR) -o $@
 
 x-gcc: $(GCCTAR)
-	tar xzf $<
-	patch -N -p1 -d $(GCCDIR) < $(HERE)/gcc.patch || true
+	tar xf $<
+	tar -C gcc-replace -c -O . | tar -C $(GCCDIR) -x -v
 
 
 f-newlib: $(NEWTAR)

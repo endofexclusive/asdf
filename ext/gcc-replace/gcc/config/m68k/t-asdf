@@ -1,0 +1,4 @@
+# Amiga computers have 680x0 CPUs
+
+M68K_MLIB_CPU += && (match(MLIB, "^680"))
+M68K_ARCH := m68k
