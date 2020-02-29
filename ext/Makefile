@@ -3,7 +3,7 @@
 
 # Version Configuration
 VLINK_VER       = 0.16
-VASM_VER        = 1.8
+VASM_VER        = 1.8g
 BINUTILS_VER    = 2.34
 GCC_VER         = 7.5.0
 NEWLIB_VER      = 3.3.0
@@ -66,7 +66,7 @@ f-vasm: $(VASM_TAR)
 $(VASM_TAR):
 	curl -L -R $(VASM_URL) -o $@
 x-vasm: $(VASM_TAR)
-	tar xzf $<
+	tar xf $<
 
 f-binutils: $(BINTAR)
 $(BINTAR):

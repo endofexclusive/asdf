@@ -29,7 +29,7 @@ Included components:
     *vlink* is copyright Frank Wille. See the *vlink* web page or the document
     `vlink.pdf` for more information on license conditions.
 
-*   [vasm portable and retargetable assembler](http://sun.hasenbraten.de/vasm/)
+*   [vasm 1.8g portable and retargetable assembler](http://sun.hasenbraten.de/vasm/)
 
     *vasm* is copyright Frank Wille. See the *vasm* web page or the document
     `vasm.pdf` for more information on license conditions.
