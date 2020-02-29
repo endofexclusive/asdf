@@ -2,7 +2,7 @@
 # with make -C
 
 # Version Configuration
-VLINK_VER       = 0.16
+VLINK_VER       = 0.16c
 VASM_VER        = 1.8g
 BINUTILS_VER    = 2.34
 GCC_VER         = 7.5.0
@@ -13,7 +13,7 @@ mkfile_dir := $(patsubst %/,%,$(dir $(mkfile_path)))
 HERE=$(mkfile_dir)
 
 VURL            = http://server.owl.de/~frank/tags
-VLINK_DIR       = vlink
+VLINK_DIR       = vlink-${VLINK_VER}
 VLINK_TAR       = vlink-${VLINK_VER}.tar.gz
 VLINK_UVER      = $(shell echo $(VLINK_VER) | tr . _ )
 VLINK_URL       = $(VURL)/vlink$(VLINK_UVER).tar.gz
@@ -59,8 +59,9 @@ f-vlink: $(VLINK_TAR)
 $(VLINK_TAR):
 	curl -L -R $(VLINK_URL) -o $@
 x-vlink: $(VLINK_TAR)
-	tar xzf $<
-	patch -N -p1 -d vlink < $(HERE)/vlink.patch || true
+	mkdir -p $(VLINK_DIR)
+	tar -C $(VLINK_DIR) -x -f $<
+#	tar -C vlink-replace -c -O . | tar -C $(VLINK_DIR) -x -v
 
 f-vasm: $(VASM_TAR)
 $(VASM_TAR):

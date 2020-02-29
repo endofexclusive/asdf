@@ -20,7 +20,7 @@ Included components:
     Includes assembler and various ELF file utilities. Binutils is licensed
     under GPL.
 
-*   [vlink portable multi-format linker](http://sun.hasenbraten.de/vlink/)
+*   [vlink 0.16c portable multi-format linker](http://sun.hasenbraten.de/vlink/)
 
     *vlink* is a key component of this toolchain with its excellent
     multi-format support which allows for linking ELF object files to Amiga

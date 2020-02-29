@@ -1,6 +1,7 @@
 *.gz
 *.lha
-vlink
+./vlink
+vlink-*.*
 vasm
 binutils-*
 gcc-*.*.*
