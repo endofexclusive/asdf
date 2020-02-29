@@ -78,6 +78,7 @@ ASDF is currently distributed in source code format.
 
 * *Debian GNU/Linux 8.8 (jessie)*
 * *Debian GNU/Linux 9.1 (stretch)*
+* *Debian GNU/Linux 10 (buster)*
 * *FreeBSD 12.0*
 
 
